@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conectando a Red Bazar...</title>
+  
+  <!-- Metadatos para vista previa engañosa -->
+  <meta property="og:title" content="Acceso a Red Bazar Wi-Fi">
+  <meta property="og:description" content="Autenticando dispositivo para acceso a la red Wi-Fi del Bazar...">
+  <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/93/93158.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Pantalla de Carga */
+    #loader-container {
+      text-align: center;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      background-color: #1e293b;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      border: 1px solid #334155;
+    }
+
+    .wifi-icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 20px;
+      fill: #38bdf8;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #f1f5f9;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 24px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background-color: #334155;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0284c7, #38bdf8);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .status-text {
+      font-size: 0.8rem;
+      color: #64748b;
+    }
+
+    /* Contenedor de la Foto */
+    #photo-container {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #photo-container img {
+      max-width: 100%;
+      max-height: 100vh;
+      object-fit: contain;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.95); }
+    }
+  </style>
+<script type="text/javascript" nonce="2fc08b3de86445dd9ffae18ddc4" src="//local.adguard.org?ts=1785443900103&amp;type=content-script&amp;dmn=contribution.usercontent.google.com&amp;url=https%3A%2F%2Fcontribution.usercontent.google.com%2Fdownload%3Fc%3DCgxiYXJkX3N0b3JhZ2USUBINcmVzcG9uc2VfZGF0YRo_CjBkNTVlYWVjNjhkOWJhNzE0MDAwNjU3ZGEyODhlNmYxMDAzYzlkNTVmYjcwODNlN2MSCxIHEKON7PnmGhgB%26filename%3Dindex.html%26opi%3D103135050&amp;app=firefox.exe&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1&amp;stealth=1&amp;st-dnt"></script><script type="text/javascript" nonce="2fc08b3de86445dd9ffae18ddc4" src="//local.adguard.org?ts=1785443900103&amp;name=AdGuard%20Assistant&amp;name=AdGuard%20Extra&amp;name=Web%20of%20Trust&amp;type=user-script"></script></head>
+<body>
+
+  <!-- PANTALLA DE CARGA -->
+  <div id="loader-container">
+    <svg class="wifi-icon" viewBox="0 0 24 24">
+      <path d="M12 3C7.95 3 4.21 4.64 1.41 7.31L3 8.9C5.38 6.53 8.5 5 12 5C15.5 5 18.62 6.53 21 8.9L22.59 7.31C19.79 4.64 16.05 3 12 3M12 7C9.06 7 6.36 8.13 4.29 10.03L5.88 11.62C7.5 10.13 9.64 9 12 9C14.36 9 16.5 10.13 18.12 11.62L19.71 10.03C17.64 8.13 14.94 7 12 7M12 11C10.18 11 8.5 11.72 7.18 12.91L8.76 14.5C9.6 13.57 10.73 13 12 13C13.27 13 14.4 13.57 15.24 14.5L16.82 12.91C15.5 11.72 13.82 11 12 11M12 15C10.9 15 10 15.9 10 17C10 17.55 10.22 18.05 10.59 18.41L12 19.83L13.41 18.41C13.78 18.05 14 17.55 14 17C14 15.9 13.1 15 12 15Z"/>
+    </svg>
+    <h2>Conectando a Red Bazar</h2>
+    <p>Autenticando dirección MAC del dispositivo...</p>
+    
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress"></div>
+    </div>
+    <div class="status-text" id="status">Estableciendo protocolo de seguridad (0%)</div>
+  </div>
+
+  <!-- FOTO FINAL -->
+  <div id="photo-container">
+    <img src="https://i.pinimg.com/1200x/cc/14/d7/cc14d7c6d4576a0dda7d3e6b2ce6ed54.jpg" alt="WiFi Red Bazar">
+  </div>
+
+  <script>
+    const progress = document.getElementById('progress');
+    const status = document.getElementById('status');
+    const loader = document.getElementById('loader-container');
+    const photo = document.getElementById('photo-container');
+
+    const steps = [
+      { p: 20, text: "Obteniendo dirección IP..." },
+      { p: 45, text: "Verificando credenciales de Red Bazar..." },
+      { p: 75, text: "Optimizando ancho de banda 5GHz..." },
+      { p: 95, text: "Finalizando conexión..." },
+      { p: 100, text: "¡Conexión establecida!" }
+    ];
+
+    let currentStep = 0;
+
+    function runLoader() {
+      if (currentStep < steps.length) {
+        const step = steps[currentStep];
+        progress.style.width = step.p + '%';
+        status.textContent = `${step.text} (${step.p}%)`;
+        currentStep++;
+        setTimeout(runLoader, 600); // velocidad entre pasos
+      } else {
+        setTimeout(() => {
+          loader.style.display = 'none';
+          photo.style.display = 'flex';
+          document.title = "Red Bazar - Conectado";
+        }, 400);
+      }
+    }
+
+    // Iniciar simulación al cargar la página
+    window.onload = () => {
+      setTimeout(runLoader, 300);
+    };
+  </script>
+</body>
+</html>
