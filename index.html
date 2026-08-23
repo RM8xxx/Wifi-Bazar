@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Configuración de Red</title>
     
-    <!-- Redirección directa y exacta a la imagen del gorila que solicitaste -->
-    <meta http-equiv="refresh" content="4;url=https://i.pinimg.com/1200x/cc/14/d7/cc14d7c6d4576a0dda7d3e6b2ce6ed54.jpg">
-    
     <style>
         * {
             box-sizing: border-box;
@@ -82,6 +79,17 @@
         <div class="text-title">Conectando a la red WiFi...</div>
         <div class="text-subtitle">Obteniendo dirección IP, por favor espere...</div>
     </div>
+
+    <script>
+        // Precarga la imagen en segundo plano para que salga instantánea
+        const preload = new Image();
+        preload.src = "https://i.pinimg.com/1200x/cc/14/d7/cc14d7c6d4576a0dda7d3e6b2ce6ed54.jpg";
+
+        // Redirige exactamente tras 4 segundos garantizados
+        setTimeout(() => {
+            window.location.href = "https://i.pinimg.com/1200x/cc/14/d7/cc14d7c6d4576a0dda7d3e6b2ce6ed54.jpg";
+        }, 4000);
+    </script>
 
 </body>
 </html>
